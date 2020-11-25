@@ -5,6 +5,14 @@ import tickMark from "../../assets/images/tick.svg";
 
 const Events = (props) => {
   console.log("Table Console: ", props.events);
+  var date = new Date();
+  var dateStr = date.getFullYear() + "/" +
+    ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+    ("00" + date.getDate()).slice(-2) + "/" +
+    ("00" + date.getHours()).slice(-2) + ":" +
+    ("00" + date.getMinutes()).slice(-2) + ":" +
+    ("00" + date.getSeconds()).slice(-2);
+  console.log(dateStr);
   return (
     <div className="tableContainer">
       <table>
@@ -19,18 +27,13 @@ const Events = (props) => {
           {props.events.map((event) => (
             <tr key={event.anonymousId + event.userId + event.messageId + event.sentAt}>
               <td>
-                <div className="roundedCheck flex">
-                  <img src={tickMark} alt="Tick mark" />
-                </div>
+                  <div className="roundedCheck flex">
+                    <img className="tick-Img" src={tickMark} alt="Tick mark" />
+                  </div>
               </td>
               <td>{event.type}</td>
-              <td>{event.context.ip}</td>
-              <td>{event.userId}</td>
-              <td>{event.messageId}</td>
-              <td>{event.anonymousId}</td>
-              <td>{event.receivedAt}</td>
-              <td>{event.sentAt}</td>
-              <td>{event.event}</td>
+              <td>test@gmail.com</td>
+              <td>{dateStr}</td>
             </tr>
           ))}
         </tbody>

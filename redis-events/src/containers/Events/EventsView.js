@@ -44,11 +44,11 @@ const EventsView = (props) => {
       {/* LOAD OR STOP THE EVENTS */}
       <div className="header">
             <div className="flex">
-                <div className="flex">
-                    <button id="headerButtonInactive" onClick={liveEvents}>Live</button>
-                    <button id="headerButtonActive" onClick={pauseEvents}>Pause</button>
+                <div className="flex w-10">
+                    <button  id="headerButtonInactive" onClick={liveEvents}>Live</button>
+                    <button  className={loadEvents ? "Inactive" : "active"}   id="headerButtonActive"  onClick={pauseEvents}>Pause</button>
                 </div>
-                <div id="searchDiv">
+                <div id="searchDiv" className="w-86">
                     <img id="searchIcon" src={searchIcon}  alt="Search icon" />
                     <input type="text" placeholder="Type to search" />
                 </div>
