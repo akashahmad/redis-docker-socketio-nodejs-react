@@ -1,62 +1,55 @@
 import React, { useState, useEffect } from "react";
-import socketIOClient from "socket.io-client";
+import {socket} from '../../config'
 import Events from "../../components/Events/events";
 import searchIcon from "../../assets/images/searchIcon.svg";
 import "./EventsView.css";
 
-const socket = socketIOClient("http://localhost:5000");
 
 
-const EventsView = (props) => {
+const EventsView = () => {
   const [events, setEvents] = useState([]);
-  const [loadEvents, setLoadEvents] = useState(true);
+
+  useEffect(() => {
+    getEvents()
+    // CLEAN UP THE EFFECT
+    return () => socket.disconnect();
+    // eslint-disable-next-line
+  }, []);
+
 
   const getEvents = () => {
     socket.on("FromAPI", (data) => {
       let newData = events;
       newData.push(JSON.parse(data));
-      setEvents(newData);
-      console.log(newData);
+      setEvents([...newData]);
     });
   }
-  useEffect(() => {
-    getEvents()
-    // CLEAN UP THE EFFECT
-    return () => socket.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!loadEvents) {
-      socket.disconnect();
-    }
-  }, [loadEvents]);
-
   const liveEvents = () => {
-    setLoadEvents(true);
+    socket.connect();
   };
 
   const pauseEvents = () => {
-    setLoadEvents(false);
+    socket.disconnect();
   };
 
   return (
     <div className="wrapper">
       {/* LOAD OR STOP THE EVENTS */}
       <div className="header">
-            <div className="flex">
-                <div className="flex">
-                    <button id="headerButtonInactive" onClick={liveEvents}>Live</button>
-                    <button id="headerButtonActive" onClick={pauseEvents}>Pause</button>
-                </div>
-                <div id="searchDiv">
-                    <img id="searchIcon" src={searchIcon}  alt="Search icon" />
-                    <input type="text" placeholder="Type to search" />
-                </div>
-                <div>
+        <div className="flex">
+          <div className="flex">
+            <button id="headerButtonInactive" onClick={liveEvents}>Live</button>
+            <button id="headerButtonActive" onClick={pauseEvents}>Pause</button>
+          </div>
+          <div id="searchDiv">
+            <img id="searchIcon" src={searchIcon} alt="Search icon" />
+            <input type="text" placeholder="Type to search" />
+          </div>
+          <div>
 
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
       {events.length ? <Events events={events} /> : <p>No events</p>}
     </div>
   );

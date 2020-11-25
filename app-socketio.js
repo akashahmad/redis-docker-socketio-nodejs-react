@@ -4,12 +4,12 @@ const express = require("express"),
   { createClient } = require("redis"),
   REDIS_HOST = process.env.REDIS_HOST || "localhost",
   REDIS_PORT = process.env.REDIS_PORT || "6379",
-  REDIS_CHANNEL =  process.env.REDIS_CHANNEL || "events",
+  REDIS_CHANNEL = process.env.REDIS_CHANNEL || "events",
   redis = createClient({ host: REDIS_HOST, port: REDIS_PORT }),
   cors = require("cors");
-  redis.on("connect", () => {
-    console.log("==> connected to redis");
-  });
+redis.on("connect", () => {
+  console.log("==> connected to redis");
+});
 // App setup
 const PORT = process.env.PORT || 5000;
 const app = express();
