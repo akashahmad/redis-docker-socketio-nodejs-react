@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./events.css";
 
 import tickMark from "../../assets/images/tick.svg";
 
 const Events = (props) => {
-  console.log("Table Console: ", props.events);
+  const datePrettier = (date) => {
+    date = new Date(date);
+    return date.getFullYear() + "/" +
+      ("00" + (date.getMonth() + 1)).slice(-2) + "/" +
+      ("00" + date.getDate()).slice(-2) + " " +
+      ("00" + date.getHours()).slice(-2) + ":" +
+      ("00" + date.getMinutes()).slice(-2) + ":" +
+      ("00" + date.getSeconds()).slice(-2);
+  }
   return (
     <div className="tableContainer">
       <table>
@@ -20,17 +28,13 @@ const Events = (props) => {
             <tr key={event.anonymousId + event.userId + event.messageId + event.sentAt}>
               <td>
                 <div className="roundedCheck flex">
-                  <img src={tickMark} alt="Tick mark" />
+                  <img className="tick-Img" src={tickMark} alt="Tick mark" />
                 </div>
               </td>
-              <td>{event.type}</td>
-              <td>{event.context.ip}</td>
-              <td>{event.userId}</td>
-              <td>{event.messageId}</td>
-              <td>{event.anonymousId}</td>
-              <td>{event.receivedAt}</td>
-              <td>{event.sentAt}</td>
-              <td>{event.event}</td>
+              <td>{event.type ? event.type : ""}</td>
+              <td>{event.event ? event.event : ""}</td>
+              <td>{event.traits ? (event.traits.email ? event.traits.email : "") : ""}</td>
+              <td>{event.receivedAt ? datePrettier(event.receivedAt) : ""}</td>
             </tr>
           ))}
         </tbody>
